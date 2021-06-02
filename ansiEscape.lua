@@ -1,5 +1,5 @@
-require(base64)
-
+-- require('base64')
+ansiEscape = {}
 local BEL = '\u{007}'
 local BS = '\u{008}'
 local HT = '\u{009}'
@@ -30,7 +30,7 @@ end
 
 local isAppTerminal = os.getenv("TERM_PROGRAM") == "Apple_Terminal"
 
-local function cursorUp(n)
+function ansiEscape.cursorUp(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -39,7 +39,7 @@ local function cursorUp(n)
 	return (CSI .. n .. 'A')
 end
 
-local function cursorDown(n)
+function ansiEscape.cursorDown(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -48,7 +48,7 @@ local function cursorDown(n)
 	return (CSI .. n .. 'B')
 end
 
-local function cursorForward(n)
+function ansiEscape.cursorForward(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -57,7 +57,7 @@ local function cursorForward(n)
 	return (CSI .. n .. 'C')
 end
 
-local function cursorBack(n)
+function ansiEscape.cursorBack(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -66,7 +66,7 @@ local function cursorBack(n)
 	return (CSI .. n .. 'D')
 end
 
-local function cursorNextLine(n)
+function ansiEscape.cursorNextLine(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -75,7 +75,7 @@ local function cursorNextLine(n)
 	return (CSI .. n .. 'F')
 end
 
-local function cursorPrevLine(n)
+function ansiEscape.cursorPrevLine(n)
 	if  type(n) == 'nil' then
 		n =1
 	elseif type(n) ~= 'number' then
@@ -84,18 +84,18 @@ local function cursorPrevLine(n)
 	return (CSI .. n .. 'F')
 end
 
-local function cursorHorizontalAbsolute(n)
+function ansiEscape.cursorHorizontalAbsolute(n)
     assert(type(n) ~= 'number', 'n is not a number')
     return (CSI .. n .. 'G')
 end
 
-local function cursorPosition(n, m)
+function ansiEscape.cursorPosition(n, m)
     assert(type(n) ~= 'number', 'n is not a number')
     assert(type(m) ~= 'number', 'm is not a number')
     return (CSI .. n .. ';' .. m .. 'H')
 end
 
-local function eraseInDisplay(n)
+function ansiEscape.eraseInDisplay(n)
 	if type(n) == 'nil' then
 		n = 0
 	elseif type(n) ~= 'number' then
@@ -104,7 +104,7 @@ local function eraseInDisplay(n)
 	return (CSI .. n .. 'J')
 end
 
-local function eraseInLine(n)
+function ansiEscape.eraseInLine(n)
 	if type(n) == 'nil' then
 		n = 0
 	elseif type(n) ~= 'number' then
@@ -113,7 +113,7 @@ local function eraseInLine(n)
 	return (CSI .. n .. 'K')
 end
 
-local function scrollUp(n)
+function ansiEscape.scrollUp(n)
 	if type(n) == 'nil' then
 		n = 0
 	elseif type(n) ~= 'number' then
@@ -122,7 +122,7 @@ local function scrollUp(n)
 	return (CSI .. n .. 'S')
 end
 
-local function scrollDown(n)
+function ansiEscape.scrollDown(n)
 	if type(n) == 'nil' then
 		n = 0
 	elseif type(n) ~= 'number' then
@@ -131,7 +131,7 @@ local function scrollDown(n)
 	return (CSI .. n .. 'T')
 end
 
-local function scrollUp(n)
+function ansiEscape.scrollUp(n)
 	if type(n) == 'nil' then
 		n = 0
 	elseif type(n) ~= 'number' then
@@ -140,42 +140,42 @@ local function scrollUp(n)
 	return (CSI .. n .. 'S')
 end
 
-local function horizontalVerticalPosition(n, m)
+function ansiEscape.horizontalVerticalPosition(n, m)
     assert(type(n) ~= 'number', 'n is not a number')
     assert(type(m) ~= 'number', 'm is not a number')
     return (CSI .. n .. ';' .. m .. 'f')
 end
 
-local function selectGraphicRendition(n)
+function ansiEscape.selectGraphicRendition(n)
     assert(type(n) ~= 'number', 'n is not a number')
 	return (CSI .. n .. 'm')
 end
 
-local auxPortOn = CSI .. '5i'
+ansiEscape.auxPortOn = CSI .. '5i'
 
-local auxPortOff = CSI .. '4i'
+ansiEscape.auxPortOff = CSI .. '4i'
 
-local deviceStatusReport = CSI .. '6n'
+ansiEscape.deviceStatusReport = CSI .. '6n'
 
-local cursorSavePosition= CSI .. (isAppTerminal and 7 or 's')
+ansiEscape.cursorSavePosition= CSI .. (isAppTerminal and 7 or 's')
 
-local cursorRestorePosition = CSI .. (isAppTerminal and 8 or 'u')
+ansiEscape.cursorRestorePosition = CSI .. (isAppTerminal and 8 or 'u')
 
-local showCursor= CSI .. '?25h'
+ansiEscape.showCursor= CSI .. '?25h'
 
-local hideCursor = CSI .. '?25l'
+ansiEscape.hideCursor = CSI .. '?25l'
 
-local enableAlternativeScreenBuffer = CSI .. '?1049h'
+ansiEscape.enableAlternativeScreenBuffer = CSI .. '?1049h'
 
-local disableAlternativeScreenBuffer = CSI .. '?1049l'
+ansiEscape.disableAlternativeScreenBuffer = CSI .. '?1049l'
 
-local enableBracketedPasteMode = CSI .. '?2004l'
+ansiEscape.enableBracketedPasteMode = CSI .. '?2004l'
 
-local disableBracketedPasteMode = CSI .. '?2004l'
+ansiEscape.disableBracketedPasteMode = CSI .. '?2004l'
 
-local resetState = ESC .. 'c'
+ansiEscape.resetState = ESC .. 'c'
 
-local SGR = {
+ansiEscape.SGR = {
 	reset = CSI .. '0m',
 	bold = CSI .. '1m',
 	faint = CSI .. '2m',
@@ -208,7 +208,7 @@ local SGR = {
 
 }
 -- reference https://github.com/sindresorhus/ansi-escapes
-local function cursorTo(x, y)
+function ansiEscape.cursorTo(x, y)
     if type(x) ~= 'number' then
     	error("invaild input type")
     end
@@ -218,11 +218,11 @@ local function cursorTo(x, y)
     return CSI .. (y + 1) .. ';' .. (x + 1) ..'H'
 end
 
-local function cursorMove(x, y)
+function ansiEscape.cursorMove(x, y)
     if type(x) ~= 'number' then
     	error("invaild input type")
     end
-    local retVal = ''
+    retVal = ''
     if x < 0 then
     	retVal = retVal .. CSI .. (-x) .. 'D'
     elseif x > 0 then
@@ -236,14 +236,14 @@ local function cursorMove(x, y)
     return retVal
 end
 
-local clearTerm = getOS() == 'Windows' and (eraseInDisplay(2) .. CSI .. '0f') or (eraseInDisplay(2) .. CSI .. '3J' .. CSI .. 'H')
+ansiEscape.clearTerm = getOS() == 'Windows' and (ansiEscape.eraseInDisplay(2) .. CSI .. '0f') or (ansiEscape.eraseInDisplay(2) .. CSI .. '3J' .. CSI .. 'H')
 
-local function link(text, url)
+function ansiEscape.link(text, url)
 	return OSC .. '8;;' .. url .. BEL .. text .. OSC .. '8;;' .. BEL
 end
 
-local function itermImage(buffer, opt)
-	local retVal = (OSC .. '1337;File=inline=1')
+function ansiEscape.itermImage(buffer, opt)
+	retVal = (OSC .. '1337;File=inline=1')
 	if opt['width'] ~= nil  then
 		retVal = retVal .. ';width=' .. opt['width']
 	end
