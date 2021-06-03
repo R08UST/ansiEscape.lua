@@ -1,4 +1,4 @@
--- require('base64')
+require('base64')
 ansiEscape = {}
 local BEL = '\u{007}'
 local BS = '\u{008}'
