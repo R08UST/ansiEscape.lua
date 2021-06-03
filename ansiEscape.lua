@@ -1,4 +1,5 @@
 require('base64')
+-- reference https://en.wikipedia.org/wiki/ANSI_escape_code
 ansiEscape = {}
 local BEL = '\u{007}'
 local BS = '\u{008}'
@@ -242,7 +243,7 @@ function ansiEscape.link(text, url)
 	return OSC .. '8;;' .. url .. BEL .. text .. OSC .. '8;;' .. BEL
 end
 
-function ansiEscape.itermImage(buffer, opt)
+function ansEscape.itermImage(buffer, opt)
 	retVal = (OSC .. '1337;File=inline=1')
 	if opt['width'] ~= nil  then
 		retVal = retVal .. ';width=' .. opt['width']
@@ -254,4 +255,4 @@ function ansiEscape.itermImage(buffer, opt)
 		retVal = retVal .. ';preserveAspectRatio=0'
 	end
 	return retVal .. ':' .. base64.encode(buffer) .. BEL
-end
+endi
