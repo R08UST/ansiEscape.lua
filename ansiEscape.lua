@@ -255,4 +255,4 @@ function ansEscape.itermImage(buffer, opt)
 		retVal = retVal .. ';preserveAspectRatio=0'
 	end
 	return retVal .. ':' .. base64.encode(buffer) .. BEL
-endi
+end
